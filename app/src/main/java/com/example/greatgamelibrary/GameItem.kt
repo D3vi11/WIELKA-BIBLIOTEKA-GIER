@@ -1,3 +1,5 @@
 package com.example.greatgamelibrary
 
-data class GameItem(val gameImage: Int,val gameTitle: String)
+import android.graphics.Bitmap
+
+data class GameItem(val gameImage: Bitmap, val gameTitle: String)

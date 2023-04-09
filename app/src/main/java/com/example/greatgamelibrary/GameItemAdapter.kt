@@ -21,7 +21,7 @@ class GameItemAdapter(val gameItemList: ArrayList<GameItem>): RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: GameItemViewHolder, position: Int) {
         val currentItem = gameItemList[position]
-        holder.gameImage.setImageResource(currentItem.gameImage)
+        holder.gameImage.setImageBitmap(currentItem.gameImage)
         holder.gameTitle.text = currentItem.gameTitle
     }
 
