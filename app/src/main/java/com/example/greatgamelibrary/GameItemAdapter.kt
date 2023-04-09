@@ -25,6 +25,10 @@ class GameItemAdapter(val gameItemList: ArrayList<GameItem>): RecyclerView.Adapt
         holder.gameTitle.text = currentItem.gameTitle
     }
 
+    fun delete(){
+        gameItemList.clear()
+    }
+
     class GameItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val gameImage: ImageView = itemView.findViewById(R.id.gameImage)
         val gameTitle: TextView = itemView.findViewById(R.id.gameTitle)
