@@ -16,20 +16,20 @@ import com.google.firebase.storage.StorageReference
 class FirebaseDB() {
     var storageReference: StorageReference = FirebaseStorage.getInstance().reference
     var databaseReference: DatabaseReference = Firebase.database.getReference("games")
-    var gameTitleArrayList: ArrayList<String> = arrayListOf()
+    var gameTextArrayList: ArrayList<String> = arrayListOf()
     var gameImageArrayList: ArrayList<Bitmap> = arrayListOf()
 
     /**
      * Method gets All titles from DB
      * return ArrayList<String> of titles
      */
-    fun getTitleDataFromDB(): ArrayList<String> {
+    suspend fun getTitleDataFromDB(): ArrayList<String> {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                gameTitleArrayList.clear()
+                gameTextArrayList.clear()
                 for (i in 0 until snapshot.childrenCount) {
                     var title = snapshot.child(i.toString()).child("game").child("title")
-                    gameTitleArrayList.add(title.getValue().toString())
+                    gameTextArrayList.add(title.getValue().toString())
                 }
             }
 
@@ -37,14 +37,31 @@ class FirebaseDB() {
                 Log.w(ContentValues.TAG, "Failed to read value", error.toException())
             }
         })
-        return gameTitleArrayList
+        return gameTextArrayList
+    }
+
+    fun getTextDataFromDB(resource: String): ArrayList<String> {
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                gameTextArrayList.clear()
+                for (i in 0 until snapshot.childrenCount) {
+                    var title = snapshot.child(i.toString()).child("game").child("additionalInformation").child(resource)
+                    gameTextArrayList.add(title.getValue().toString())
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w(ContentValues.TAG, "Failed to read value", error.toException())
+            }
+        })
+        return gameTextArrayList
     }
 
     /**
      * Method gets All images from DB
      * return ArrayList<Bitmap> of Images
      */
-    fun getImageDataFromDB(): ArrayList<Bitmap> {
+    suspend fun getImageDataFromDB(): ArrayList<Bitmap> {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 gameImageArrayList.clear()

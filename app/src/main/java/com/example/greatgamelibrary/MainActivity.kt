@@ -1,11 +1,16 @@
 package com.example.greatgamelibrary
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     lateinit var editText: EditText
@@ -23,22 +28,38 @@ class MainActivity : AppCompatActivity() {
         advancedSearchButton = findViewById(R.id.advancedSearchButton)
         setRecyclerView()
         //TODO("dlaczego getUserData nie działa na starcie")
-        getUserData()
+        //getUserData()
         searchButton.setOnClickListener {
             getUserData()
         }
     }
 
     fun getUserData() {
-        val gameTitle = firebaseDB.getTitleDataFromDB()
-        val gameImage = firebaseDB.getImageDataFromDB()
+        var gameTitle = arrayListOf<String>()
+        var gameImage = arrayListOf<Bitmap>()
         val gameItems = arrayListOf<GameItem>()
+        CoroutineScope(IO).launch {
+                //delay(1000)
+                gameTitle = firebaseDB.getTitleDataFromDB()
+                gameImage = firebaseDB.getImageDataFromDB()
+        }
+        //while(gameImage.isEmpty())
+        Thread.sleep(500)
         if (gameTitle.size == gameImage.size) {
             for (i in gameImage.indices) {
                 gameItems.add(GameItem(gameImage[i], gameTitle[i]))
             }
         }
-        recyclerView.adapter = GameItemAdapter(gameItems)
+        var adapter = GameItemAdapter(gameItems)
+        recyclerView.adapter = adapter
+        adapter.setOnItemClickListener(object : GameItemAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                val intent = Intent(this@MainActivity,GameActivity::class.java)
+                intent.putExtra("position",position)
+                startActivity(intent)
+            }
+
+        })
     }
 
     fun setRecyclerView() {

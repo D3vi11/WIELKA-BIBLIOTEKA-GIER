@@ -3,4 +3,6 @@
     <string name="title">WIELKA BIBLIOTEKA GIER</string>
     <string name="Search">Wyszukaj</string>
     <string name="AdvancedSearch">Wyszukiwanie zaawansowane</string>
+    <string name="MainMenu">Strona Główna</string>
+    <string name="RateGame">Oceń grę</string>
 </resources>

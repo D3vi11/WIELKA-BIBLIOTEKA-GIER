@@ -9,10 +9,20 @@ import androidx.recyclerview.widget.RecyclerView
 
 class GameItemAdapter(val gameItemList: ArrayList<GameItem>): RecyclerView.Adapter<GameItemAdapter.GameItemViewHolder>() {
 
+    private lateinit var listener: onItemClickListener
+
+    interface onItemClickListener{
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener){
+        this.listener=listener
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameItemViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.game_item,parent,false)
-        return GameItemViewHolder(itemView)
+        return GameItemViewHolder(itemView,listener)
     }
 
     override fun getItemCount(): Int {
@@ -25,12 +35,13 @@ class GameItemAdapter(val gameItemList: ArrayList<GameItem>): RecyclerView.Adapt
         holder.gameTitle.text = currentItem.gameTitle
     }
 
-    fun delete(){
-        gameItemList.clear()
-    }
-
-    class GameItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class GameItemViewHolder(itemView: View, listener: onItemClickListener): RecyclerView.ViewHolder(itemView){
         val gameImage: ImageView = itemView.findViewById(R.id.gameImage)
         val gameTitle: TextView = itemView.findViewById(R.id.gameTitle)
+        init {
+            itemView.setOnClickListener{
+                listener.onItemClick(adapterPosition)
+            }
+        }
     }
 }
