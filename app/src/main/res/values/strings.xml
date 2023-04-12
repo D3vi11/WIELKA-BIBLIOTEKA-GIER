@@ -8,4 +8,7 @@
     <string name="Login">Login</string>
     <string name="Password">Hasło</string>
     <string name="LoginTo">Zaloguj</string>
+    <string name="Email">Email</string>
+    <string name="RepeatPassword">Powtórz hasło</string>
+    <string name="Register">Zarejestruj się</string>
 </resources>
