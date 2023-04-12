@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         //getUserData()
         searchButton.setOnClickListener {
             getUserData()
+            //Toast.makeText(this,"abc",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -38,13 +40,13 @@ class MainActivity : AppCompatActivity() {
         var gameTitle = arrayListOf<String>()
         var gameImage = arrayListOf<Bitmap>()
         val gameItems = arrayListOf<GameItem>()
-        CoroutineScope(IO).launch {
+       // CoroutineScope(IO).launch {
                 //delay(1000)
                 gameTitle = firebaseDB.getTitleDataFromDB()
                 gameImage = firebaseDB.getImageDataFromDB()
-        }
+       // }
         //while(gameImage.isEmpty())
-        Thread.sleep(500)
+        //Thread.sleep(500)
         if (gameTitle.size == gameImage.size) {
             for (i in gameImage.indices) {
                 gameItems.add(GameItem(gameImage[i], gameTitle[i]))

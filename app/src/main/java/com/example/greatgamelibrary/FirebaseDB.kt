@@ -17,19 +17,20 @@ class FirebaseDB() {
     var storageReference: StorageReference = FirebaseStorage.getInstance().reference
     var databaseReference: DatabaseReference = Firebase.database.getReference("games")
     var gameTextArrayList: ArrayList<String> = arrayListOf()
+    var gameTitleArrayList: ArrayList<String> = arrayListOf()
     var gameImageArrayList: ArrayList<Bitmap> = arrayListOf()
 
     /**
      * Method gets All titles from DB
      * return ArrayList<String> of titles
      */
-    suspend fun getTitleDataFromDB(): ArrayList<String> {
+     fun getTitleDataFromDB(): ArrayList<String> {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                gameTextArrayList.clear()
+                gameTitleArrayList.clear()
                 for (i in 0 until snapshot.childrenCount) {
                     var title = snapshot.child(i.toString()).child("game").child("title")
-                    gameTextArrayList.add(title.getValue().toString())
+                    gameTitleArrayList.add(title.getValue().toString())
                 }
             }
 
@@ -37,7 +38,7 @@ class FirebaseDB() {
                 Log.w(ContentValues.TAG, "Failed to read value", error.toException())
             }
         })
-        return gameTextArrayList
+        return gameTitleArrayList
     }
 
     fun getTextDataFromDB(resource: String): ArrayList<String> {
@@ -61,7 +62,7 @@ class FirebaseDB() {
      * Method gets All images from DB
      * return ArrayList<Bitmap> of Images
      */
-    suspend fun getImageDataFromDB(): ArrayList<Bitmap> {
+    fun getImageDataFromDB(): ArrayList<Bitmap> {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 gameImageArrayList.clear()

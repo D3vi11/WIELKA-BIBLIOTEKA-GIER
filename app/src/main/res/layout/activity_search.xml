@@ -55,6 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayoutTitle">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="70dp"
             android:background="@color/AdvancedSearch"
@@ -78,10 +79,12 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerView"
-            android:layout_width="349dp"
-            android:layout_height="390dp"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

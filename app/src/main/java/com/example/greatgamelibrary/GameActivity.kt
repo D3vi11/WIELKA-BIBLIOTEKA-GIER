@@ -41,21 +41,12 @@ class GameActivity : AppCompatActivity() {
         }
     }
     fun setAllData(){
-        var title = arrayListOf<String>()
-        var image = arrayListOf<Bitmap>()
-        var date = arrayListOf<String>()
-        var rating = arrayListOf<String>()
-        var userRating = arrayListOf<String>()
-        var thread = Thread(){
-            Runnable {
-                //title = firebaseDB.getTitleDataFromDB()
-               // image = firebaseDB.getImageDataFromDB()
-                date = firebaseDB.getTextDataFromDB("date")
-                rating = firebaseDB.getTextDataFromDB("rating")
-                userRating = firebaseDB.getTextDataFromDB("userRating")
-            }
-        }
-        thread.start()
+        val  title = firebaseDB.getTitleDataFromDB()
+        val  image = firebaseDB.getImageDataFromDB()
+        val  date = firebaseDB.getTextDataFromDB("date")
+        val  rating = firebaseDB.getTextDataFromDB("rating")
+        val  userRating = firebaseDB.getTextDataFromDB("userRating")
+
         if(!title.isEmpty()){
             this.title.text = title.get(position)
         }else{
@@ -73,6 +64,7 @@ class GameActivity : AppCompatActivity() {
         }
         if(!rating.isEmpty()){
             this.rating.text = rating.get(position)
+            //Toast.makeText(this@GameActivity,title.toString(),Toast.LENGTH_SHORT).show()
         }else{
             Toast.makeText(this@GameActivity,"ERROR",Toast.LENGTH_SHORT).show()
         }
