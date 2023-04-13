@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Great Game Library</string>
+    <string name="title">WIELKA BIBLIOTEKA GIER</string>
+    <string name="Search">Wyszukaj</string>
+    <string name="AdvancedSearch">Wyszukiwanie zaawansowane</string>
+    <string name="MainMenu">Strona Główna</string>
+    <string name="RateGame">Oceń grę</string>
+    <string name="Login">Login</string>
+    <string name="Password">Hasło</string>
+    <string name="LoginTo">Zaloguj</string>
+    <string name="Email">Email</string>
+    <string name="RepeatPassword">Powtórz hasło</string>
+    <string name="Register">Zarejestruj się</string>
+    <string name="Rate">Oceń</string>
 </resources>
