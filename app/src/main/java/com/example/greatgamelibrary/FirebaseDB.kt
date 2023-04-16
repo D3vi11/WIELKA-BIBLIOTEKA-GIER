@@ -1,7 +1,6 @@
 package com.example.greatgamelibrary
 
 import android.content.ContentValues
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
@@ -16,77 +15,32 @@ import com.google.firebase.storage.StorageReference
 class FirebaseDB() {
     var storageReference: StorageReference = FirebaseStorage.getInstance().reference
     var databaseReference: DatabaseReference = Firebase.database.getReference("games")
-    var gameTextArrayList: ArrayList<String> = arrayListOf()
-    var gameTitleArrayList: ArrayList<String> = arrayListOf()
-    var gameImageArrayList: ArrayList<Bitmap> = arrayListOf()
+    var gameDataList: ArrayList<GameInfo> = arrayListOf()
 
-    /**
-     * Method gets All titles from DB
-     * return ArrayList<String> of titles
-     */
-     fun getTitleDataFromDB(): ArrayList<String> {
-        databaseReference.addValueEventListener(object : ValueEventListener {
+    fun getDataFromDB(): ArrayList<GameInfo>{
+        databaseReference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                gameTitleArrayList.clear()
-                for (i in 0 until snapshot.childrenCount) {
-                    var title = snapshot.child(i.toString()).child("game").child("title")
-                    gameTitleArrayList.add(title.getValue().toString())
+                for (i in 0 until snapshot.childrenCount){
+                    gameDataList.add(GameInfo(snapshot.child(i.toString()).child("game")))
+                    getDataFromStorage(gameDataList.get(i.toString().toInt()).imageName,i.toString().toInt())
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value", error.toException())
             }
+
         })
-        return gameTitleArrayList
+        return gameDataList
     }
 
-    fun getTextDataFromDB(resource: String): ArrayList<String> {
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                gameTextArrayList.clear()
-                for (i in 0 until snapshot.childrenCount) {
-                    var title = snapshot.child(i.toString()).child("game").child("additionalInformation").child(resource)
-                    gameTextArrayList.add(title.getValue().toString())
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(ContentValues.TAG, "Failed to read value", error.toException())
-            }
-        })
-        return gameTextArrayList
-    }
-
-    /**
-     * Method gets All images from DB
-     * return ArrayList<Bitmap> of Images
-     */
-    fun getImageDataFromDB(): ArrayList<Bitmap> {
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                gameImageArrayList.clear()
-                for (i in 0 until snapshot.childrenCount) {
-                    var imageName =
-                        snapshot.child(i.toString()).child("game").child("image").getValue()
-                            .toString()
-                    var titleRef = storageReference.child("image/${imageName}")
-                    val ONE_MEGABYTE: Long = 1024 * 1024
-                    titleRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
-                        val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
-                        gameImageArrayList.add(bitmap)
-                    }.addOnFailureListener {
-                        it.stackTrace
-                    }
-
-
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(ContentValues.TAG, "Failed to read value", error.toException())
-            }
-        })
-        return gameImageArrayList
+    fun getDataFromStorage(imageName: String,index: Int){
+        var titleRef = storageReference.child("image/${imageName}")
+        val ONE_MEGABYTE: Long = 1024 * 1024
+        titleRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+            gameDataList.get(index).image = BitmapFactory.decodeByteArray(it, 0, it.size)
+        }.addOnFailureListener {
+            it.stackTrace
+        }
     }
 }

@@ -1,17 +1,12 @@
 package com.example.greatgamelibrary
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     lateinit var editText: EditText
@@ -19,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var advancedSearchButton: Button
     lateinit var recyclerView: RecyclerView
     lateinit var firebaseDB: FirebaseDB
+    lateinit var gameInfo: ArrayList<GameInfo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,20 +33,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getUserData() {
-        var gameTitle = arrayListOf<String>()
-        var gameImage = arrayListOf<Bitmap>()
         val gameItems = arrayListOf<GameItem>()
-       // CoroutineScope(IO).launch {
-                //delay(1000)
-                gameTitle = firebaseDB.getTitleDataFromDB()
-                gameImage = firebaseDB.getImageDataFromDB()
-       // }
-        //while(gameImage.isEmpty())
-        //Thread.sleep(500)
-        if (gameTitle.size == gameImage.size) {
-            for (i in gameImage.indices) {
-                gameItems.add(GameItem(gameImage[i], gameTitle[i]))
-            }
+        gameInfo = firebaseDB.getDataFromDB()
+        for (i in gameInfo.indices) {
+            gameItems.add(GameItem(gameInfo[i].image, gameInfo[i].title))
         }
         var adapter = GameItemAdapter(gameItems)
         recyclerView.adapter = adapter

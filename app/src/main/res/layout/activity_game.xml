@@ -73,7 +73,7 @@
             app:layout_constraintTop_toBottomOf="@+id/GameImage" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerView"
+            android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="177dp"
             app:layout_constraintBottom_toBottomOf="parent"
