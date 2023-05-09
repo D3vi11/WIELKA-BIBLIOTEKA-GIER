@@ -1,8 +1,13 @@
 package com.example.greatgamelibrary
 
+import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.graphics.BitmapFactory
+import android.provider.CalendarContract.Instances
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -12,7 +17,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-class FirebaseDB() {
+class FirebaseDB(var activity: Activity) {
     var storageReference: StorageReference = FirebaseStorage.getInstance().reference
     var databaseReference: DatabaseReference = Firebase.database.getReference("games")
     var gameDataList: ArrayList<GameInfo> = arrayListOf()
@@ -25,7 +30,6 @@ class FirebaseDB() {
                     getDataFromStorage(gameDataList.get(i.toString().toInt()).imageName,i.toString().toInt())
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value", error.toException())
             }
@@ -33,6 +37,7 @@ class FirebaseDB() {
         })
         return gameDataList
     }
+
 
     fun getDataFromStorage(imageName: String,index: Int){
         var titleRef = storageReference.child("image/${imageName}")

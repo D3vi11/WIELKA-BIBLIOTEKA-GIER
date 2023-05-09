@@ -18,10 +18,10 @@ class GameInfoAdapter(val gameInfo: GameInfo): RecyclerView.Adapter<GameInfoAdap
     }
 
     override fun onBindViewHolder(holder: GameInfoViewHolder, position: Int) {
-        holder.gameInfo.text = gameInfo.title
-        holder.gameInfo.text = gameInfo.data
-        holder.gameInfo.text = gameInfo.rating
-        holder.gameInfo.text = gameInfo.userRating
+        //holder.gameInfo.text = gameInfo.title
+       // holder.gameInfo.text = gameInfo.data
+       // holder.gameInfo.text = gameInfo.rating
+       // holder.gameInfo.text = gameInfo.userRating
     }
 
     class GameInfoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){

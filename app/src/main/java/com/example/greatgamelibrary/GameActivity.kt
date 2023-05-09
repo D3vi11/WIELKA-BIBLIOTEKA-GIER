@@ -18,7 +18,7 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        firebaseDB = FirebaseDB()
+        firebaseDB = FirebaseDB(this@GameActivity)
         mainMenuButton = findViewById(R.id.MainMenuButton)
         rateButton = findViewById(R.id.RateGameButton)
         image = findViewById(R.id.GameImage)
@@ -34,7 +34,7 @@ class GameActivity : AppCompatActivity() {
         }
     }
     fun setAllData(){
-        gameInfo = firebaseDB.getDataFromDB()
+        firebaseDB.getDataFromDB()
         if(!gameInfo.isEmpty()){
             var adapter = GameInfoAdapter(gameInfo[position])
             image.setImageBitmap(gameInfo[position].image)
