@@ -18,7 +18,7 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        firebaseDB = FirebaseDB(this@GameActivity)
+        firebaseDB = FirebaseDB()
         mainMenuButton = findViewById(R.id.MainMenuButton)
         rateButton = findViewById(R.id.RateGameButton)
         image = findViewById(R.id.GameImage)
@@ -34,11 +34,16 @@ class GameActivity : AppCompatActivity() {
         }
     }
     fun setAllData(){
-        firebaseDB.getDataFromDB()
-        if(!gameInfo.isEmpty()){
-            var adapter = GameInfoAdapter(gameInfo[position])
-            image.setImageBitmap(gameInfo[position].image)
-            recyclerView.adapter = adapter
+        gameInfo = firebaseDB.getDataFromDB()
+        var gameImage = firebaseDB.gameImage
+        var list = arrayListOf<String>()
+        list.add(gameInfo[position].title)
+        list.add(gameInfo[position].data)
+        list.add(gameInfo[position].rating)
+        list.add(gameInfo[position].userRating)
+        if(!list.isEmpty()){
+            GameInfoAdapter(list)
+            image.setImageBitmap(gameImage[position].image)
         }
         //Toast.makeText(this@GameActivity,gameInfo.toString(),Toast.LENGTH_SHORT).show()
 

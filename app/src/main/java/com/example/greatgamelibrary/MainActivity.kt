@@ -2,12 +2,15 @@ package com.example.greatgamelibrary
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Adapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.GlobalScope.coroutineContext
+import kotlin.coroutines.coroutineContext
 
 class
 MainActivity : AppCompatActivity() {
@@ -20,7 +23,7 @@ MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        firebaseDB = FirebaseDB(this@MainActivity)
+        firebaseDB = FirebaseDB()
         editText = findViewById(R.id.editText)
         searchButton = findViewById(R.id.searchButton)
         advancedSearchButton = findViewById(R.id.advancedSearchButton)
@@ -33,9 +36,11 @@ MainActivity : AppCompatActivity() {
     }
 
     fun getUserData() {
-        var gameItems = firebaseDB.getDataFromDB()
-        for (i in firebaseDB.gameDataList.indices) {
-            gameItems.add(GameItem(GameInfo[i].image, GameInfo[i].title))
+        var gameInfo = firebaseDB.getDataFromDB()
+        var gameItems = arrayListOf<GameItem>()
+        var gameImage = firebaseDB.gameImage
+        for (i in gameInfo.indices) {
+            gameItems.add(GameItem(gameImage[i].image, gameInfo[i].title))
         }
         var adapter = GameItemAdapter(gameItems)
         recyclerView.adapter = adapter
@@ -47,7 +52,8 @@ MainActivity : AppCompatActivity() {
             }
 
         })
-        //Toast.makeText(this@MainActivity,"abc",Toast.LENGTH_SHORT).show()
+
+        //Toast.makeText(this@MainActivity,gameInfo[0].toString(),Toast.LENGTH_SHORT).show()
     }
 
     fun setRecyclerView() {

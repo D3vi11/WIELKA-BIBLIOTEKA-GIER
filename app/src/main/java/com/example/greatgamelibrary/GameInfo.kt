@@ -9,7 +9,6 @@ data class GameInfo(var snapshot: DataSnapshot){
 
     var title = snapshot.child("title").value.toString()
     var imageName = snapshot.child("image").value.toString()
-    lateinit var image: Bitmap
     var data = snapshot.child("additionalInformation").child("data").value.toString()
     var rating = snapshot.child("additionalInformation").child("rating").value.toString()
     var userRating = snapshot.child("additionalInformation").child("userRating").value.toString()
