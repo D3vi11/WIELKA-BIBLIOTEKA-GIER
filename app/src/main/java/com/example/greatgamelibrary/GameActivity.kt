@@ -36,14 +36,15 @@ class GameActivity : AppCompatActivity() {
     fun setAllData(){
         gameInfo = firebaseDB.getDataFromDB()
         var gameImage = firebaseDB.gameImage
-        var list = arrayListOf<String>()
-        list.add(gameInfo[position].title)
-        list.add(gameInfo[position].data)
-        list.add(gameInfo[position].rating)
-        list.add(gameInfo[position].userRating)
-        if(!list.isEmpty()){
-            GameInfoAdapter(list)
+        var list = arrayListOf<GameInfoData>()
+        if(!gameInfo.isEmpty()){
+            list.add(GameInfoData(gameInfo[position].title))
+            list.add(GameInfoData(gameInfo[position].data))
+            list.add(GameInfoData(gameInfo[position].rating))
+            list.add(GameInfoData(gameInfo[position].userRating))
+            var adapter = GameInfoAdapter(list)
             image.setImageBitmap(gameImage[position].image)
+            recyclerView.adapter =adapter
         }
         //Toast.makeText(this@GameActivity,gameInfo.toString(),Toast.LENGTH_SHORT).show()
 

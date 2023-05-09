@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class GameInfoAdapter(val list: ArrayList<String>): RecyclerView.Adapter<GameInfoAdapter.GameInfoViewHolder>() {
+class GameInfoAdapter(val list: ArrayList<GameInfoData>): RecyclerView.Adapter<GameInfoAdapter.GameInfoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameInfoViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.game_info,parent,false)
@@ -18,7 +18,8 @@ class GameInfoAdapter(val list: ArrayList<String>): RecyclerView.Adapter<GameInf
     }
 
     override fun onBindViewHolder(holder: GameInfoViewHolder, position: Int) {
-        holder.gameInfo.text = list[position]
+        val currentItem = list[position]
+        holder.gameInfo.text = currentItem.text
     }
 
     class GameInfoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
