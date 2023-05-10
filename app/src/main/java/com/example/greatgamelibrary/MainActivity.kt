@@ -13,7 +13,7 @@ import kotlinx.coroutines.GlobalScope.coroutineContext
 import kotlin.coroutines.coroutineContext
 
 class
-MainActivity : AppCompatActivity() {
+MainActivity : AppCompatActivity(), ActivityInterface {
     lateinit var editText: EditText
     lateinit var searchButton: Button
     lateinit var advancedSearchButton: Button
@@ -23,24 +23,33 @@ MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        firebaseDB = FirebaseDB()
+        firebaseDB = FirebaseDB(this@MainActivity)
         editText = findViewById(R.id.editText)
         searchButton = findViewById(R.id.searchButton)
         advancedSearchButton = findViewById(R.id.advancedSearchButton)
         setRecyclerView()
         //TODO("dlaczego getUserData nie działa na starcie")
-        //getUserData()
+        firebaseDB.getDataFromDB()
         searchButton.setOnClickListener {
-            getUserData()
+
         }
     }
 
+    override fun onUpdate() {
+        getUserData()
+    }
+
+
     fun getUserData() {
-        var gameInfo = firebaseDB.getDataFromDB()
+        var gameInfo = firebaseDB.gameDataList
         var gameItems = arrayListOf<GameItem>()
         var gameImage = firebaseDB.gameImage
-        for (i in gameInfo.indices) {
-            gameItems.add(GameItem(gameImage[i].image, gameInfo[i].title))
+        println(gameInfo.size)
+        println(gameImage.size)
+        if(gameInfo.size == gameImage.size){
+            for (i in gameInfo.indices) {
+                gameItems.add(GameItem(gameImage[i].image, gameInfo[i].title))
+            }
         }
         var adapter = GameItemAdapter(gameItems)
         recyclerView.adapter = adapter

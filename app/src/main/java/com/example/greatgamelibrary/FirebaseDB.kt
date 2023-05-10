@@ -17,7 +17,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-class FirebaseDB() {
+class FirebaseDB(var activity: ActivityInterface) {
     var storageReference: StorageReference = FirebaseStorage.getInstance().reference
     var databaseReference: DatabaseReference = Firebase.database.getReference("games")
     var gameDataList: ArrayList<GameInfo> = arrayListOf()
@@ -45,6 +45,7 @@ class FirebaseDB() {
         val ONE_MEGABYTE: Long = 1024 * 1024
         titleRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
             gameImage.add(GameImage(BitmapFactory.decodeByteArray(it, 0, it.size)))
+            activity.onUpdate()
         }.addOnFailureListener {
             it.stackTrace
         }

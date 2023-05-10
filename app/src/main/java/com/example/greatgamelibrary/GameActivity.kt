@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class GameActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity(),ActivityInterface {
     var position = 0
     lateinit var mainMenuButton: Button
     lateinit var rateButton: Button
@@ -19,20 +19,24 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        firebaseDB = FirebaseDB()
+        firebaseDB = FirebaseDB(this@GameActivity)
         mainMenuButton = findViewById(R.id.MainMenuButton)
         rateButton = findViewById(R.id.RateGameButton)
         image = findViewById(R.id.GameImage)
         setRecyclerView()
         position = intent.getIntExtra("position",0)
-        //setAllData()
+        firebaseDB.getDataFromDB()
         mainMenuButton.setOnClickListener {
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
         rateButton.setOnClickListener {
-            setAllData()
+
         }
+    }
+
+    override fun onUpdate() {
+        setAllData()
     }
     fun setAllData(){
         gameInfo = firebaseDB.getDataFromDB()
