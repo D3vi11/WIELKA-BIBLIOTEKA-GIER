@@ -14,22 +14,22 @@
         android:theme="@style/Theme.GreatGameLibrary"
         tools:targetApi="31">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".activities.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".RatingActivity"
+            android:name=".activities.RatingActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".GameActivity"
+            android:name=".activities.GameActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

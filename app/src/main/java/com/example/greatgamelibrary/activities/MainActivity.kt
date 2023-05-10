@@ -1,16 +1,17 @@
-package com.example.greatgamelibrary
+package com.example.greatgamelibrary.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Adapter
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.GlobalScope.coroutineContext
-import kotlin.coroutines.coroutineContext
+import com.example.greatgamelibrary.database.FirebaseDB
+import com.example.greatgamelibrary.data.GameItem
+import com.example.greatgamelibrary.adapters.GameItemAdapter
+import com.example.greatgamelibrary.R
+import com.example.greatgamelibrary.interfaces.ActivityInterface
 
 class
 MainActivity : AppCompatActivity(), ActivityInterface {
@@ -53,9 +54,9 @@ MainActivity : AppCompatActivity(), ActivityInterface {
         }
         var adapter = GameItemAdapter(gameItems)
         recyclerView.adapter = adapter
-        adapter.setOnItemClickListener(object : GameItemAdapter.onItemClickListener{
+        adapter.setOnItemClickListener(object : GameItemAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                val intent = Intent(this@MainActivity,GameActivity::class.java)
+                val intent = Intent(this@MainActivity, GameActivity::class.java)
                 intent.putExtra("position",position)
                 startActivity(intent)
             }

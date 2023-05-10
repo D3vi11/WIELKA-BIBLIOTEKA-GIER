@@ -1,4 +1,4 @@
-package com.example.greatgamelibrary
+package com.example.greatgamelibrary.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.greatgamelibrary.data.GameItem
+import com.example.greatgamelibrary.R
 
 class GameItemAdapter(val gameItemList: ArrayList<GameItem>): RecyclerView.Adapter<GameItemAdapter.GameItemViewHolder>() {
 

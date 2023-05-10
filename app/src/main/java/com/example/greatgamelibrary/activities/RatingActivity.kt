@@ -1,11 +1,12 @@
-package com.example.greatgamelibrary
+package com.example.greatgamelibrary.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.greatgamelibrary.R
 
-class LoginActivity : AppCompatActivity() {
+class RatingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_rating)
     }
 }

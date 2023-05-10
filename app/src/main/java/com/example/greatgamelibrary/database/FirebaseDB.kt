@@ -1,13 +1,11 @@
-package com.example.greatgamelibrary
+package com.example.greatgamelibrary.database
 
-import android.app.Activity
 import android.content.ContentValues
-import android.content.Context
 import android.graphics.BitmapFactory
-import android.provider.CalendarContract.Instances
 import android.util.Log
-import android.view.View
-import android.widget.Toast
+import com.example.greatgamelibrary.data.GameImage
+import com.example.greatgamelibrary.data.GameInfo
+import com.example.greatgamelibrary.interfaces.ActivityInterface
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference

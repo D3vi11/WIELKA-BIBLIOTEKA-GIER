@@ -1,11 +1,12 @@
-package com.example.greatgamelibrary
+package com.example.greatgamelibrary.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.greatgamelibrary.R
 
-class SearchActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        setContentView(R.layout.activity_login)
     }
 }

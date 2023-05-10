@@ -1,7 +1,8 @@
-package com.example.greatgamelibrary
+package com.example.greatgamelibrary.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.greatgamelibrary.R
 
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

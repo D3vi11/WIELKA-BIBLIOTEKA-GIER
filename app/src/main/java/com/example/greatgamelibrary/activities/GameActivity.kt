@@ -1,4 +1,4 @@
-package com.example.greatgamelibrary
+package com.example.greatgamelibrary.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,13 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.greatgamelibrary.database.FirebaseDB
+import com.example.greatgamelibrary.data.GameInfo
+import com.example.greatgamelibrary.adapters.GameInfoAdapter
+import com.example.greatgamelibrary.R
+import com.example.greatgamelibrary.interfaces.ActivityInterface
 
-class GameActivity : AppCompatActivity(),ActivityInterface {
+class GameActivity : AppCompatActivity(), ActivityInterface {
     var position = 0
     lateinit var mainMenuButton: Button
     lateinit var rateButton: Button
@@ -27,7 +32,7 @@ class GameActivity : AppCompatActivity(),ActivityInterface {
         position = intent.getIntExtra("position",0)
         firebaseDB.getDataFromDB()
         mainMenuButton.setOnClickListener {
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
         rateButton.setOnClickListener {

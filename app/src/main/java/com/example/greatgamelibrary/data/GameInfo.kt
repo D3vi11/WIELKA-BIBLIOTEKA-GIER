@@ -1,4 +1,4 @@
-package com.example.greatgamelibrary
+package com.example.greatgamelibrary.data
 
 import com.google.firebase.database.DataSnapshot
 
