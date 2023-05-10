@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class GameActivity : AppCompatActivity() {
@@ -22,7 +23,7 @@ class GameActivity : AppCompatActivity() {
         mainMenuButton = findViewById(R.id.MainMenuButton)
         rateButton = findViewById(R.id.RateGameButton)
         image = findViewById(R.id.GameImage)
-        recyclerView = findViewById(R.id.recyclerView)
+        setRecyclerView()
         position = intent.getIntExtra("position",0)
         //setAllData()
         mainMenuButton.setOnClickListener {
@@ -36,17 +37,17 @@ class GameActivity : AppCompatActivity() {
     fun setAllData(){
         gameInfo = firebaseDB.getDataFromDB()
         var gameImage = firebaseDB.gameImage
-        var list = arrayListOf<GameInfoData>()
         if(!gameInfo.isEmpty()){
-            list.add(GameInfoData(gameInfo[position].title))
-            list.add(GameInfoData(gameInfo[position].data))
-            list.add(GameInfoData(gameInfo[position].rating))
-            list.add(GameInfoData(gameInfo[position].userRating))
-            var adapter = GameInfoAdapter(list)
+            var adapter = GameInfoAdapter(gameInfo[position].getList())
             image.setImageBitmap(gameImage[position].image)
             recyclerView.adapter =adapter
         }
         //Toast.makeText(this@GameActivity,gameInfo.toString(),Toast.LENGTH_SHORT).show()
 
+    }
+    fun setRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
     }
 }
