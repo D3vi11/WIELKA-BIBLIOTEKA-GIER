@@ -44,9 +44,9 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
         setAllData()
     }
     fun setAllData(){
-        gameInfo = firebaseDB.getDataFromDB()
+        gameInfo = firebaseDB.gameDataList
         var gameImage = firebaseDB.gameImage
-        if(!gameInfo.isEmpty()){
+        if(gameInfo.size == gameImage.size){
             var adapter = GameInfoAdapter(gameInfo[position].getList())
             image.setImageBitmap(gameImage[position].image)
             recyclerView.adapter =adapter
