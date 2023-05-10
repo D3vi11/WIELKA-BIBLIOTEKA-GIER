@@ -20,6 +20,7 @@ MainActivity : AppCompatActivity(), ActivityInterface {
     lateinit var advancedSearchButton: Button
     lateinit var recyclerView: RecyclerView
     lateinit var firebaseDB: FirebaseDB
+    var isLoggedIn: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +30,15 @@ MainActivity : AppCompatActivity(), ActivityInterface {
         searchButton = findViewById(R.id.searchButton)
         advancedSearchButton = findViewById(R.id.advancedSearchButton)
         setRecyclerView()
-        //TODO("dlaczego getUserData nie działa na starcie")
+        //isLoggedIn = intent.getBooleanExtra("isLoggedIn",false)
         firebaseDB.getDataFromDB()
         searchButton.setOnClickListener {
 
+        }
+        advancedSearchButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, SearchActivity::class.java)
+            intent.putExtra("isLoggedIn",isLoggedIn)
+            startActivity(intent)
         }
     }
 
@@ -45,8 +51,6 @@ MainActivity : AppCompatActivity(), ActivityInterface {
         var gameInfo = firebaseDB.gameDataList
         var gameItems = arrayListOf<GameItem>()
         var gameImage = firebaseDB.gameImage
-        println(gameInfo.size)
-        println(gameImage.size)
         if(gameInfo.size == gameImage.size){
             for (i in gameInfo.indices) {
                 gameItems.add(GameItem(gameImage[i].image, gameInfo[i].title))
@@ -58,6 +62,7 @@ MainActivity : AppCompatActivity(), ActivityInterface {
             override fun onItemClick(position: Int) {
                 val intent = Intent(this@MainActivity, GameActivity::class.java)
                 intent.putExtra("position",position)
+                intent.putExtra("isLoggedIn",isLoggedIn)
                 startActivity(intent)
             }
 

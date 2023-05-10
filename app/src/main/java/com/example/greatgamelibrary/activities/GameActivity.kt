@@ -20,6 +20,7 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
     lateinit var firebaseDB: FirebaseDB
     lateinit var image: ImageView
     lateinit var recyclerView: RecyclerView
+    var isLoggedIn: Boolean = false
     var gameInfo: ArrayList<GameInfo> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,13 +31,24 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
         image = findViewById(R.id.GameImage)
         setRecyclerView()
         position = intent.getIntExtra("position",0)
+        isLoggedIn = intent.getBooleanExtra("isLoggedIn",false)
         firebaseDB.getDataFromDB()
         mainMenuButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this@GameActivity, MainActivity::class.java)
+            intent.putExtra("isLoggedIn",isLoggedIn)
             startActivity(intent)
         }
         rateButton.setOnClickListener {
-
+            if(isLoggedIn){
+                val intent = Intent(this@GameActivity, RatingActivity::class.java)
+                intent.putExtra("isLoggedIn",isLoggedIn)
+                intent.putExtra("position",position)
+                startActivity(intent)
+            }else{
+                val intent = Intent(this@GameActivity, LoginActivity::class.java)
+                intent.putExtra("isLoggedIn",isLoggedIn)
+                startActivity(intent)
+            }
         }
     }
 
