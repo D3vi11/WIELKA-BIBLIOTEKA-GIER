@@ -1,6 +1,7 @@
 package com.example.greatgamelibrary.activities
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -20,11 +21,13 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
     lateinit var firebaseDB: FirebaseDB
     lateinit var image: ImageView
     lateinit var recyclerView: RecyclerView
+    lateinit var mediaPlayer: MediaPlayer
     var isLoggedIn: Boolean = false
     var gameInfo: ArrayList<GameInfo> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        mediaPlayer = MediaPlayer()
         firebaseDB = FirebaseDB(this@GameActivity)
         mainMenuButton = findViewById(R.id.MainMenuButton)
         rateButton = findViewById(R.id.RateGameButton)
