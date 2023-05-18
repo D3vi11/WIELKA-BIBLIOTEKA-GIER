@@ -30,7 +30,7 @@ MainActivity : AppCompatActivity(), ActivityInterface {
         searchButton = findViewById(R.id.searchButton)
         advancedSearchButton = findViewById(R.id.advancedSearchButton)
         setRecyclerView()
-        //isLoggedIn = intent.getBooleanExtra("isLoggedIn",false)
+        isLoggedIn = intent.getBooleanExtra("isLoggedIn",false)
         firebaseDB.getDataFromDB()
         searchButton.setOnClickListener {
 

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "809922614437",
+    "firebase_url": "https://great-game-library-default-rtdb.firebaseio.com",
     "project_id": "great-game-library",
     "storage_bucket": "great-game-library.appspot.com"
   },
