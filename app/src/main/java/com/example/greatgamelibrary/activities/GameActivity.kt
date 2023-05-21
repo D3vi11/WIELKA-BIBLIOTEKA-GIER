@@ -7,10 +7,10 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.greatgamelibrary.database.FirebaseDB
-import com.example.greatgamelibrary.data.GameInfo
-import com.example.greatgamelibrary.adapters.GameInfoAdapter
 import com.example.greatgamelibrary.R
+import com.example.greatgamelibrary.adapters.GameInfoAdapter
+import com.example.greatgamelibrary.data.GameInfo
+import com.example.greatgamelibrary.database.FirebaseDB
 import com.example.greatgamelibrary.interfaces.ActivityInterface
 
 class GameActivity : AppCompatActivity(), ActivityInterface {
