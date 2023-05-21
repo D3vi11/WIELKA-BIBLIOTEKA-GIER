@@ -7,6 +7,7 @@ import android.util.Log
 import com.example.greatgamelibrary.data.GameAudio
 import com.example.greatgamelibrary.data.GameImage
 import com.example.greatgamelibrary.data.GameInfo
+import com.example.greatgamelibrary.data.GameVideo
 import com.example.greatgamelibrary.interfaces.ActivityInterface
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,6 +24,7 @@ class FirebaseDB(var activity: ActivityInterface) {
     var gameDataList: ArrayList<GameInfo> = arrayListOf()
     var gameImage: ArrayList<GameImage> = arrayListOf()
     var gameAudio: ArrayList<GameAudio> = arrayListOf()
+    var gameVideo: ArrayList<GameVideo> = arrayListOf()
 
     fun getDataFromDB(): ArrayList<GameInfo> {
         databaseReference.addValueEventListener(object : ValueEventListener {
@@ -59,15 +61,23 @@ class FirebaseDB(var activity: ActivityInterface) {
         }.addOnFailureListener {
             it.stackTrace
         }
-        var uri = audioRef.downloadUrl
+        val audioUri = audioRef.downloadUrl
 
-        uri.addOnSuccessListener {
-            gameAudio.add(GameAudio(uri.result))
+        audioUri.addOnSuccessListener {
+            gameAudio.add(GameAudio(audioUri.result))
             activity.onUpdate()
         }.addOnFailureListener{
             it.stackTrace
         }
 
+        val videoUri = videoRef.downloadUrl
+
+        videoUri.addOnSuccessListener {
+            gameVideo.add(GameVideo(videoUri.result))
+            activity.onUpdate()
+        }.addOnFailureListener{
+            it.stackTrace
+        }
 
     }
 
