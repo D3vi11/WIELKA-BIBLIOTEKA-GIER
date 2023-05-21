@@ -43,20 +43,19 @@ class FirebaseDB(var activity: ActivityInterface) {
         return gameDataList
     }
 
-    fun getDataFromStorage(imageName: String, audioName: String, videoName: String, item: Int) {
+    fun getDataFromStorage(imageName: String, audioName: String, videoName: String, index: Int) {
         var imageRef = storageReference.child("image/${imageName}")
         var audioRef = storageReference.child("audio/${audioName}")
         var videoRef = storageReference.child("video/${videoName}")
         val ONE_MEGABYTE: Long = 1024 * 1024
-        titleRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
-            gameImage.add(index,GameImage(BitmapFactory.decodeByteArray(it, 0, it.size)))
+
+        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+            gameImage.add(GameImage(BitmapFactory.decodeByteArray(it, 0, it.size)))
             if(index+1<=gameImage.size){
                 gameImage.removeAt(index+1)
             }else{
                 gameImage.removeAt(index-1)
             }
-        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
-            gameImage.add(GameImage(BitmapFactory.decodeByteArray(it, 0, it.size)))
             activity.onUpdate()
         }.addOnFailureListener {
             it.stackTrace
