@@ -4,9 +4,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.SeekBar
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,17 +24,23 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
     lateinit var mediaPlayer: MediaPlayer
     lateinit var playButton: Button
     lateinit var musicSeekBar: SeekBar
+    lateinit var videoView: VideoView
+    lateinit var mediaController: MediaController
     var isLoggedIn: Boolean = false
     var gameInfo: ArrayList<GameInfo> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        mediaController = MediaController(this)
         playButton = findViewById(R.id.playButton)
         musicSeekBar = findViewById(R.id.MusicSeekBar)
+        videoView = findViewById(R.id.videoView)
         firebaseDB = FirebaseDB(this@GameActivity)
         mainMenuButton = findViewById(R.id.MainMenuButton)
         rateButton = findViewById(R.id.RateGameButton)
         image = findViewById(R.id.GameImage)
+        mediaController.setAnchorView(videoView)
+        videoView.setMediaController(mediaController)
         setRecyclerView()
         position = intent.getIntExtra("position",0)
         isLoggedIn = intent.getBooleanExtra("isLoggedIn",false)
@@ -84,6 +88,10 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
         if(firebaseDB.gameAudio.isNotEmpty()){
             mediaPlayer = MediaPlayer.create(this,firebaseDB.gameAudio[position].audio)
             initializeSeekBar()
+        }
+        if(firebaseDB.gameVideo.isNotEmpty()){
+            videoView.setVideoURI(firebaseDB.gameVideo[position].video)
+            videoView.requestFocus()
         }
     }
     fun setAllData(){
