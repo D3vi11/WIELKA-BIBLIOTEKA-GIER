@@ -8,10 +8,10 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.greatgamelibrary.database.FirebaseDB
-import com.example.greatgamelibrary.data.GameInfo
-import com.example.greatgamelibrary.adapters.GameInfoAdapter
 import com.example.greatgamelibrary.R
+import com.example.greatgamelibrary.adapters.GameInfoAdapter
+import com.example.greatgamelibrary.data.GameInfo
+import com.example.greatgamelibrary.database.FirebaseDB
 import com.example.greatgamelibrary.interfaces.ActivityInterface
 
 class GameActivity : AppCompatActivity(), ActivityInterface {
@@ -22,12 +22,13 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
     lateinit var image: ImageView
     lateinit var recyclerView: RecyclerView
     lateinit var mediaPlayer: MediaPlayer
+    lateinit var playButton: Button
     var isLoggedIn: Boolean = false
     var gameInfo: ArrayList<GameInfo> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        mediaPlayer = MediaPlayer()
+        playButton = findViewById(R.id.playButton)
         firebaseDB = FirebaseDB(this@GameActivity)
         mainMenuButton = findViewById(R.id.MainMenuButton)
         rateButton = findViewById(R.id.RateGameButton)
@@ -53,10 +54,17 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
                 startActivity(intent)
             }
         }
+        playButton.setOnClickListener {
+
+        }
     }
 
     override fun onUpdate() {
         setAllData()
+        if(firebaseDB.gameAudio.isNotEmpty()){
+            mediaPlayer = MediaPlayer.create(this,firebaseDB.gameAudio[position].audio)
+            mediaPlayer.start()
+        }
     }
     fun setAllData(){
         gameInfo = firebaseDB.gameDataList

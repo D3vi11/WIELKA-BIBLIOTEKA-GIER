@@ -3,6 +3,7 @@ package com.example.greatgamelibrary.database
 import android.content.ContentValues
 import android.graphics.BitmapFactory
 import android.util.Log
+import com.example.greatgamelibrary.data.GameAudio
 import com.example.greatgamelibrary.data.GameImage
 import com.example.greatgamelibrary.data.GameInfo
 import com.example.greatgamelibrary.interfaces.ActivityInterface
@@ -20,6 +21,7 @@ class FirebaseDB(var activity: ActivityInterface) {
     var databaseReference: DatabaseReference = Firebase.database.getReference("games")
     var gameDataList: ArrayList<GameInfo> = arrayListOf()
     var gameImage: ArrayList<GameImage> = arrayListOf()
+    var gameAudio: ArrayList<GameAudio> = arrayListOf()
 
     fun getDataFromDB(): ArrayList<GameInfo> {
 
@@ -39,14 +41,17 @@ class FirebaseDB(var activity: ActivityInterface) {
     }
 
     fun getDataFromStorage(imageName: String, item: Int) {
-        var titleRef = storageReference.child("image/${imageName}")
+        var imageRef = storageReference.child("image/${imageName}")
+        var audioRef = storageReference.child("audio/${imageName}")
+        var videoRef = storageReference.child("video/${imageName}")
         val ONE_MEGABYTE: Long = 1024 * 1024
-        titleRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
             gameImage.add(GameImage(BitmapFactory.decodeByteArray(it, 0, it.size)))
             activity.onUpdate()
         }.addOnFailureListener {
             it.stackTrace
         }
+        gameAudio.add(GameAudio(audioRef.downloadUrl.result))
     }
 }
 
