@@ -29,7 +29,7 @@ class FirebaseDB(var activity: ActivityInterface) {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (i in 0 until snapshot.childrenCount) {
                     gameDataList.add(GameInfo(snapshot.child(i.toString()).child("game")))
-                    getDataFromStorage(gameDataList[i.toInt()].imageName, i.toInt())
+                    getDataFromStorage(gameDataList[i.toInt()].imageName,gameDataList[i.toInt()].audioName,gameDataList[i.toInt()].videoName, i.toInt())
                 }
             }
 
@@ -40,10 +40,10 @@ class FirebaseDB(var activity: ActivityInterface) {
         return gameDataList
     }
 
-    fun getDataFromStorage(imageName: String, item: Int) {
+    fun getDataFromStorage(imageName: String, audioName: String, videoName: String, item: Int) {
         var imageRef = storageReference.child("image/${imageName}")
-        var audioRef = storageReference.child("audio/${imageName}")
-        var videoRef = storageReference.child("video/${imageName}")
+        var audioRef = storageReference.child("audio/${audioName}")
+        var videoRef = storageReference.child("video/${videoName}")
         val ONE_MEGABYTE: Long = 1024 * 1024
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
             gameImage.add(GameImage(BitmapFactory.decodeByteArray(it, 0, it.size)))
@@ -51,7 +51,16 @@ class FirebaseDB(var activity: ActivityInterface) {
         }.addOnFailureListener {
             it.stackTrace
         }
-        gameAudio.add(GameAudio(audioRef.downloadUrl.result))
+        var uri = audioRef.downloadUrl
+
+        uri.addOnSuccessListener {
+            gameAudio.add(GameAudio(uri.result))
+            activity.onUpdate()
+        }.addOnFailureListener{
+            it.stackTrace
+        }
+
+
     }
 }
 
