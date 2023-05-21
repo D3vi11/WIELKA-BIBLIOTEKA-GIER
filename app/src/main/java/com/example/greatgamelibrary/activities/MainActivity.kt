@@ -7,10 +7,10 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.greatgamelibrary.database.FirebaseDB
-import com.example.greatgamelibrary.data.GameItem
-import com.example.greatgamelibrary.adapters.GameItemAdapter
 import com.example.greatgamelibrary.R
+import com.example.greatgamelibrary.adapters.GameItemAdapter
+import com.example.greatgamelibrary.data.GameItem
+import com.example.greatgamelibrary.database.FirebaseDB
 import com.example.greatgamelibrary.interfaces.ActivityInterface
 
 class
@@ -39,6 +39,11 @@ MainActivity : AppCompatActivity(), ActivityInterface {
             val intent = Intent(this@MainActivity, SearchActivity::class.java)
             intent.putExtra("isLoggedIn",isLoggedIn)
             startActivity(intent)
+        }
+        searchButton.setOnClickListener {
+            for(i in firebaseDB.gameImage.indices){
+                println("Number: "+i+"image : "+firebaseDB.gameImage[i].image.byteCount)
+            }
         }
     }
 
