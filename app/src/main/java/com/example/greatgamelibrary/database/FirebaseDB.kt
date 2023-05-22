@@ -50,7 +50,7 @@ class FirebaseDB(var activity: ActivityInterface) {
         val ONE_MEGABYTE: Long = 1024 * 1024
 
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
-            gameImage.add(GameImage(BitmapFactory.decodeByteArray(it, 0, it.size)))
+            gameImage.add(index,GameImage(BitmapFactory.decodeByteArray(it, 0, it.size)))
             if(index+1<=gameImage.size){
                 gameImage.removeAt(index+1)
             }else{
