@@ -32,7 +32,9 @@ class FirebaseDB(var activity: ActivityInterface) {
                 gameImage = initializeArray(snapshot.childrenCount.toInt())
                 for (i in 0 until snapshot.childrenCount) {
                     gameDataList.add(GameInfo(snapshot.child(i.toString()).child("game")))
-                    getDataFromStorage(gameDataList[i.toInt()].imageName,gameDataList[i.toInt()].audioName,gameDataList[i.toInt()].videoName, i.toInt())
+                    getDataFromStorage(gameDataList[i.toInt()].imageName, i.toInt())
+                    getAudioFromStorage(gameDataList[i.toInt()].audioName)
+                    getVideoFromStorage(gameDataList[i.toInt()].videoName)
                 }
             }
 
@@ -43,10 +45,8 @@ class FirebaseDB(var activity: ActivityInterface) {
         return gameDataList
     }
 
-    fun getDataFromStorage(imageName: String, audioName: String, videoName: String, index: Int) {
+    fun getDataFromStorage(imageName: String, index: Int) {
         var imageRef = storageReference.child("image/${imageName}")
-        var audioRef = storageReference.child("audio/${audioName}")
-        var videoRef = storageReference.child("video/${videoName}")
         val ONE_MEGABYTE: Long = 1024 * 1024
 
         imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
@@ -60,24 +60,28 @@ class FirebaseDB(var activity: ActivityInterface) {
         }.addOnFailureListener {
             it.stackTrace
         }
-        val audioUri = audioRef.downloadUrl
 
+    }
+    fun getAudioFromStorage(audioName: String){
+        var audioRef = storageReference.child("audio/${audioName}")
+        val audioUri = audioRef.downloadUrl
         audioUri.addOnSuccessListener {
             gameAudio.add(GameAudio(audioUri.result))
             activity.onUpdate()
         }.addOnFailureListener{
             it.stackTrace
         }
+    }
 
+    fun getVideoFromStorage(videoName: String){
+        var videoRef = storageReference.child("video/${videoName}")
         val videoUri = videoRef.downloadUrl
-
         videoUri.addOnSuccessListener {
             gameVideo.add(GameVideo(videoUri.result))
             activity.onUpdate()
         }.addOnFailureListener{
             it.stackTrace
         }
-
     }
 
     fun initializeArray(size: Int): ArrayList<GameImage>{

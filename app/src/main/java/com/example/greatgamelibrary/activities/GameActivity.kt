@@ -85,11 +85,11 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
 
     override fun onUpdate() {
         setAllData()
-        if(firebaseDB.gameAudio.isNotEmpty()){
+        if(firebaseDB.gameAudio.isNotEmpty()&&firebaseDB.gameAudio.size==firebaseDB.gameDataList.size){
             mediaPlayer = MediaPlayer.create(this,firebaseDB.gameAudio[position].audio)
             initializeSeekBar()
         }
-        if(firebaseDB.gameVideo.isNotEmpty()){
+        if(firebaseDB.gameVideo.isNotEmpty()&&firebaseDB.gameVideo.size==firebaseDB.gameDataList.size){
             videoView.setVideoURI(firebaseDB.gameVideo[position].video)
             videoView.requestFocus()
         }
