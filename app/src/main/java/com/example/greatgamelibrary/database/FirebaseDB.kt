@@ -31,7 +31,7 @@ class FirebaseDB(var activity: ActivityInterface) {
             override fun onDataChange(snapshot: DataSnapshot) {
                 gameImage = initializeArray(snapshot.childrenCount.toInt())
                 for (i in 0 until snapshot.childrenCount) {
-                    gameDataList.add(GameInfo(snapshot.child(i.toString()).child("game")))
+                    gameDataList.add(GameInfo(snapshot.child(i.toString())))
                     getDataFromStorage(gameDataList[i.toInt()].imageName, i.toInt())
                     getAudioFromStorage(gameDataList[i.toInt()].audioName)
                     getVideoFromStorage(gameDataList[i.toInt()].videoName)
