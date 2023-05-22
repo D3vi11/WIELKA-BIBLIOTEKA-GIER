@@ -22,7 +22,7 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
     lateinit var image: ImageView
     lateinit var recyclerView: RecyclerView
     lateinit var mediaPlayer: MediaPlayer
-    lateinit var playButton: Button
+    lateinit var playButton: ImageButton
     lateinit var musicSeekBar: SeekBar
     lateinit var videoView: VideoView
     lateinit var mediaController: MediaController
@@ -65,8 +65,10 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
         playButton.setOnClickListener {
             if(mediaPlayer.isPlaying){
                 mediaPlayer.pause()
+                playButton.setImageResource(android.R.drawable.ic_media_play)
             }else{
                 mediaPlayer.start()
+                playButton.setImageResource(android.R.drawable.ic_media_pause)
             }
         }
         musicSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
