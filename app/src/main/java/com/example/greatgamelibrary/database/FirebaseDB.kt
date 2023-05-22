@@ -4,8 +4,10 @@ import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
+import com.example.greatgamelibrary.data.GameAudio
 import com.example.greatgamelibrary.data.GameImage
 import com.example.greatgamelibrary.data.GameInfo
+import com.example.greatgamelibrary.data.GameVideo
 import com.example.greatgamelibrary.interfaces.ActivityInterface
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,6 +23,8 @@ class FirebaseDB(var activity: ActivityInterface) {
     var databaseReference: DatabaseReference = Firebase.database.getReference("games")
     var gameDataList: ArrayList<GameInfo> = arrayListOf()
     var gameImage: ArrayList<GameImage> = arrayListOf()
+    var gameAudio: ArrayList<GameAudio> = arrayListOf()
+    var gameVideo: ArrayList<GameVideo> = arrayListOf()
 
     fun getDataFromDB(): ArrayList<GameInfo> {
         databaseReference.addValueEventListener(object : ValueEventListener {
@@ -29,6 +33,8 @@ class FirebaseDB(var activity: ActivityInterface) {
                 for (i in 0 until snapshot.childrenCount) {
                     gameDataList.add(GameInfo(snapshot.child(i.toString()).child("game")))
                     getDataFromStorage(gameDataList[i.toInt()].imageName, i.toInt())
+                    getAudioFromStorage(gameDataList[i.toInt()].audioName)
+                    getVideoFromStorage(gameDataList[i.toInt()].videoName)
                 }
             }
 
@@ -40,9 +46,10 @@ class FirebaseDB(var activity: ActivityInterface) {
     }
 
     fun getDataFromStorage(imageName: String, index: Int) {
-        var titleRef = storageReference.child("image/${imageName}")
+        var imageRef = storageReference.child("image/${imageName}")
         val ONE_MEGABYTE: Long = 1024 * 1024
-        titleRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
+
+        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener {
             gameImage.add(index,GameImage(BitmapFactory.decodeByteArray(it, 0, it.size)))
             if(index+1<=gameImage.size){
                 gameImage.removeAt(index+1)
@@ -51,6 +58,28 @@ class FirebaseDB(var activity: ActivityInterface) {
             }
             activity.onUpdate()
         }.addOnFailureListener {
+            it.stackTrace
+        }
+
+    }
+    fun getAudioFromStorage(audioName: String){
+        var audioRef = storageReference.child("audio/${audioName}")
+        val audioUri = audioRef.downloadUrl
+        audioUri.addOnSuccessListener {
+            gameAudio.add(GameAudio(audioUri.result))
+            activity.onUpdate()
+        }.addOnFailureListener{
+            it.stackTrace
+        }
+    }
+
+    fun getVideoFromStorage(videoName: String){
+        var videoRef = storageReference.child("video/${videoName}")
+        val videoUri = videoRef.downloadUrl
+        videoUri.addOnSuccessListener {
+            gameVideo.add(GameVideo(videoUri.result))
+            activity.onUpdate()
+        }.addOnFailureListener{
             it.stackTrace
         }
     }
