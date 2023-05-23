@@ -2,8 +2,10 @@ package com.example.greatgamelibrary.activities
 
 import android.content.Intent
 import android.media.MediaPlayer
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +28,7 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
     lateinit var musicSeekBar: SeekBar
     lateinit var videoView: VideoView
     lateinit var mediaController: MediaController
+    lateinit var progressBar: ProgressBar
     var isLoggedIn: Boolean = false
     var gameInfo: ArrayList<GameInfo> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +38,7 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
         playButton = findViewById(R.id.playButton)
         musicSeekBar = findViewById(R.id.MusicSeekBar)
         videoView = findViewById(R.id.videoView)
+        progressBar = findViewById(R.id.progressBar)
         firebaseDB = FirebaseDB(this@GameActivity)
         mainMenuButton = findViewById(R.id.MainMenuButton)
         rateButton = findViewById(R.id.RateGameButton)
@@ -87,13 +91,31 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
 
     override fun onUpdate() {
         setAllData()
+        var isAudioReady = false
+        var isVideoReady = false
+        videoView.visibility = View.INVISIBLE
+        musicSeekBar.visibility = View.INVISIBLE
+        playButton.visibility = View.INVISIBLE
         if(firebaseDB.gameAudio.isNotEmpty()&&firebaseDB.gameAudio.size==firebaseDB.gameDataList.size){
             mediaPlayer = MediaPlayer.create(this,firebaseDB.gameAudio[position].audio)
             initializeSeekBar()
+            isAudioReady = true
         }
         if(firebaseDB.gameVideo.isNotEmpty()&&firebaseDB.gameVideo.size==firebaseDB.gameDataList.size){
             videoView.setVideoURI(firebaseDB.gameVideo[position].video)
             videoView.requestFocus()
+            isVideoReady = true
+        }
+        if(isAudioReady&&isVideoReady){
+            progressBar.visibility = View.INVISIBLE
+            videoView.visibility = View.VISIBLE
+            musicSeekBar.visibility = View.VISIBLE
+            playButton.visibility = View.VISIBLE
+        }else{
+            progressBar.visibility = View.VISIBLE
+            videoView.visibility = View.INVISIBLE
+            musicSeekBar.visibility = View.INVISIBLE
+            playButton.visibility = View.INVISIBLE
         }
     }
     fun setAllData(){
