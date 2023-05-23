@@ -15,6 +15,8 @@ import com.example.greatgamelibrary.adapters.GameInfoAdapter
 import com.example.greatgamelibrary.data.GameInfo
 import com.example.greatgamelibrary.database.FirebaseDB
 import com.example.greatgamelibrary.interfaces.ActivityInterface
+import pl.droidsonroids.gif.GifDrawable
+import pl.droidsonroids.gif.GifImageView
 
 class GameActivity : AppCompatActivity(), ActivityInterface {
     var position = 0
@@ -29,12 +31,14 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
     lateinit var videoView: VideoView
     lateinit var mediaController: MediaController
     lateinit var progressBar: ProgressBar
+    lateinit var musicGif: GifImageView
     var isLoggedIn: Boolean = false
     var gameInfo: ArrayList<GameInfo> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         mediaController = MediaController(this)
+        musicGif = findViewById(R.id.gifImageView)
         playButton = findViewById(R.id.playButton)
         musicSeekBar = findViewById(R.id.MusicSeekBar)
         videoView = findViewById(R.id.videoView)
@@ -69,10 +73,12 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
         playButton.setOnClickListener {
             if(mediaPlayer.isPlaying){
                 mediaPlayer.pause()
+                musicGif.visibility = View.INVISIBLE
                 playButton.setImageResource(android.R.drawable.ic_media_play)
             }else{
                 mediaPlayer.start()
                 playButton.setImageResource(android.R.drawable.ic_media_pause)
+                musicGif.visibility = View.VISIBLE
             }
         }
         musicSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
@@ -96,6 +102,7 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
         videoView.visibility = View.INVISIBLE
         musicSeekBar.visibility = View.INVISIBLE
         playButton.visibility = View.INVISIBLE
+        musicGif.visibility = View.INVISIBLE
         if(firebaseDB.gameAudio.isNotEmpty()&&firebaseDB.gameAudio.size==firebaseDB.gameDataList.size){
             mediaPlayer = MediaPlayer.create(this,firebaseDB.gameAudio[position].audio)
             initializeSeekBar()
@@ -116,6 +123,7 @@ class GameActivity : AppCompatActivity(), ActivityInterface {
             videoView.visibility = View.INVISIBLE
             musicSeekBar.visibility = View.INVISIBLE
             playButton.visibility = View.INVISIBLE
+            musicGif.visibility = View.INVISIBLE
         }
     }
     fun setAllData(){
