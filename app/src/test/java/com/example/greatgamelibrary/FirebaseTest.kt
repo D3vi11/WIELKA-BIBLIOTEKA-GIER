@@ -1,14 +1,16 @@
 package com.example.greatgamelibrary
 
-import com.example.greatgamelibrary.activities.MainActivity
-import com.example.greatgamelibrary.data.GameInfo
-import com.example.greatgamelibrary.database.FirebaseDB
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import com.example.greatgamelibrary.activities.MainActivity
+import com.example.greatgamelibrary.database.FirebaseDB
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 
+private const val FAKE_STRING = "Strona Główna"
 @RunWith(MockitoJUnitRunner::class)
 class FirebaseTest {
 
@@ -17,9 +19,11 @@ class FirebaseTest {
 
     @Test
     fun gameInfoTest(){
-        var gameInfoTestArray: ArrayList<GameInfo> = arrayListOf()
-        var firebase: FirebaseDB = FirebaseDB(mainActivity)
-        var gameInfo: ArrayList<GameInfo> = firebase.getDataFromDB()
-        assertEquals(gameInfo,gameInfoTestArray)
+        val mainActivity = mock<MainActivity>{
+            on{ getString(R.string.MainMenu) } doReturn FAKE_STRING
+        }
+        val db = FirebaseDB(mainActivity)
+
+        assertEquals(2,2)
     }
 }

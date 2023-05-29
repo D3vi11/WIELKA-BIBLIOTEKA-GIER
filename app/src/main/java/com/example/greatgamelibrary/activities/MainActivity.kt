@@ -13,8 +13,7 @@ import com.example.greatgamelibrary.data.GameItem
 import com.example.greatgamelibrary.database.FirebaseDB
 import com.example.greatgamelibrary.interfaces.ActivityInterface
 
-class
-MainActivity : AppCompatActivity(), ActivityInterface {
+class MainActivity : AppCompatActivity(), ActivityInterface {
     lateinit var editText: EditText
     lateinit var searchButton: Button
     lateinit var advancedSearchButton: Button
