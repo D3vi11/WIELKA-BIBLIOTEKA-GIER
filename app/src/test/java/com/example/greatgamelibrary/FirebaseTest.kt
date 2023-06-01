@@ -1,28 +1,32 @@
 package com.example.greatgamelibrary
 
+import android.content.Context
+import android.net.Uri
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import com.example.greatgamelibrary.activities.MainActivity
 import com.example.greatgamelibrary.database.FirebaseDB
+import com.example.greatgamelibrary.interfaces.ActivityInterface
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import android.os.*
+import com.google.firebase.FirebaseApp
 
 private const val FAKE_STRING = "Strona Główna"
 @RunWith(MockitoJUnitRunner::class)
 class FirebaseTest {
 
     @Mock
-    private lateinit var mainActivity: MainActivity
+    private lateinit var activityContext: ActivityInterface
 
     @Test
     fun gameInfoTest(){
-        val mainActivity = mock<MainActivity>{
-            on{ getString(R.string.MainMenu) } doReturn FAKE_STRING
+        activityContext = mock{
+
         }
-        val db = FirebaseDB(mainActivity)
+        val db = FirebaseDB(activityContext)
 
         assertEquals(2,2)
     }
