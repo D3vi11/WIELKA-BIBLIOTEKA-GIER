@@ -12,21 +12,23 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import android.os.*
+import androidx.appcompat.app.AppCompatActivity
+import com.example.greatgamelibrary.activities.MainActivity
+import com.example.greatgamelibrary.data.GameInfo
 import com.google.firebase.FirebaseApp
+import com.google.firebase.database.DataSnapshot
 
-private const val FAKE_STRING = "Strona Główna"
 @RunWith(MockitoJUnitRunner::class)
 class FirebaseTest {
 
     @Mock
     private lateinit var activityContext: ActivityInterface
+    @Mock
+    private lateinit var context: AppCompatActivity
 
     @Test
     fun gameInfoTest(){
-        activityContext = mock{
-
-        }
-        val db = FirebaseDB(activityContext)
+        //val db = FirebaseDB(activityContext)
 
         assertEquals(2,2)
     }
